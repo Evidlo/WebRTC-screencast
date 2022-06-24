@@ -36,6 +36,7 @@ function pageReady() {
 function getUserMediaSuccess(stream) {
   localStream = stream;
   localVideo.srcObject = stream;
+  start(true);
 }
 
 function start_screenshare() {
@@ -92,7 +93,7 @@ function gotIceCandidate(event) {
 }
 
 function createdDescription(description) {
-  console.log('got description');
+  console.log("Sharing screen to display computer")
 
   peerConnection.setLocalDescription(description).then(function() {
     serverConnection.send(JSON.stringify({'sdp': peerConnection.localDescription, 'uuid': uuid}));
