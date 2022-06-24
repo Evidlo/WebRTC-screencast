@@ -26,11 +26,11 @@ function pageReady() {
     audio: true,
   };
 
-  if(navigator.mediaDevices.getUserMedia) {
-    navigator.mediaDevices.getUserMedia(constraints).then(getUserMediaSuccess).catch(errorHandler);
-  } else {
-    alert('Your browser does not support getUserMedia API');
-  }
+  // if(navigator.mediaDevices.getUserMedia) {
+  //   navigator.mediaDevices.getUserMedia(constraints).then(getUserMediaSuccess).catch(errorHandler);
+  // } else {
+  //   alert('Your browser does not support getUserMedia API');
+  // }
 }
 
 function getUserMediaSuccess(stream) {
@@ -38,7 +38,23 @@ function getUserMediaSuccess(stream) {
   localVideo.srcObject = stream;
 }
 
+function start_screenshare() {
+  var constraints = {
+    video: {
+      cursor: "always"
+    },
+    audio: false
+  };
+  if(navigator.mediaDevices.getUserMedia) {
+    navigator.mediaDevices.getDisplayMedia(constraints).then(getUserMediaSuccess).catch(errorHandler);
+  } else {
+    alert('Your browser does not support getUserMedia API');
+  }
+}
+
 function start(isCaller) {
+
+
   peerConnection = new RTCPeerConnection(peerConnectionConfig);
   peerConnection.onicecandidate = gotIceCandidate;
   peerConnection.ontrack = gotRemoteStream;
