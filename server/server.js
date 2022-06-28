@@ -21,6 +21,9 @@ const handleRequest = function(request, response) {
   if(request.url === '/') {
     response.writeHead(200, {'Content-Type': 'text/html'});
     response.end(fs.readFileSync('client/index.html'));
+  } else if(request.url === '/display') {
+    response.writeHead(200, {'Content-Type': 'text/html'});
+    response.end(fs.readFileSync('client/display.html'));
   } else if(request.url === '/webrtc.js') {
     response.writeHead(200, {'Content-Type': 'application/javascript'});
     response.end(fs.readFileSync('client/webrtc.js'));
@@ -42,6 +45,10 @@ wss.on('connection', function(ws) {
     wss.broadcast(message);
   });
 });
+
+wss.on('error', function(error) {
+  console.log(error);
+})
 
 wss.broadcast = function(data) {
   this.clients.forEach(function(client) {

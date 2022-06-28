@@ -20,22 +20,12 @@ function pageReady() {
 
   serverConnection = new WebSocket('wss://' + window.location.hostname + ':8443');
   serverConnection.onmessage = gotMessageFromServer;
-
-  var constraints = {
-    video: true,
-    audio: true,
-  };
-
-  // if(navigator.mediaDevices.getUserMedia) {
-  //   navigator.mediaDevices.getUserMedia(constraints).then(getUserMediaSuccess).catch(errorHandler);
-  // } else {
-  //   alert('Your browser does not support getUserMedia API');
-  // }
 }
 
 function getUserMediaSuccess(stream) {
   localStream = stream;
-  localVideo.srcObject = stream;
+  // show screen shared video
+  // localVideo.srcObject = stream;
   start(true);
 }
 
@@ -59,16 +49,17 @@ function start(isCaller) {
   peerConnection = new RTCPeerConnection(peerConnectionConfig);
   peerConnection.onicecandidate = gotIceCandidate;
   peerConnection.ontrack = gotRemoteStream;
-  peerConnection.addStream(localStream);
 
   if(isCaller) {
     peerConnection.createOffer().then(createdDescription).catch(errorHandler);
+    peerConnection.addStream(localStream);
   }
 }
 
 function gotMessageFromServer(message) {
   if(!peerConnection) start(false);
 
+  console.log(message.data);
   var signal = JSON.parse(message.data);
 
   // Ignore messages from ourself
