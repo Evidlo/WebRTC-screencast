@@ -1,6 +1,12 @@
 WebRTC Example
 ==============
 
+#### Modifications by Evidlo
+
+I modified the clients to display only in one direction (from caster to displayer) and changed get getUserMedia to getDisplayMedia to share the screen instead of video.
+
+The display page is available at `https://localhost:8443/display` and the client is available at `https://localhost:8443`.
+
 #### shane tully (shanetully.com)
 
 An 'as simple as it gets' WebRTC example.
